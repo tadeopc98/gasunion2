@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+    <!-- ======= Styles ====== -->
+    
+    <link rel="stylesheet"  href="/style3.css">
+</head>
+<body>
+  <!-- =============== Navigation ================ -->
+  <div class="container">
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="business-outline"></ion-icon>
+                    </span>
+                    <span class="title">Gas Unión</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/coordinador">
+                    <span class="icon">
+                        <ion-icon name="home-outline"></ion-icon>
+                    </span>
+                    <span class="title">Dashboard Principal</span>
+                </a>
+            </li>
+
+            
+
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </span>
+                    <span class="title">Clientes</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="help-outline"></ion-icon>
+                    </span>
+                    <span class="title">Servicios</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="file-tray-stacked-outline"></ion-icon>
+                    </span>
+                    <span class="title">Bloques</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </span>
+                    <span class="title">Precio gas</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout">
+                    <span class="icon">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                    </span>
+                    <span class="title">Cerrar Sesión</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ========================= Main ==================== -->
+    <div class="main">
+        <div class="topbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+
+            
+
+            <div class="">
+                <span class="title"><%= datos.rol %></span>
+            </div>
+        </div>
+
+        <!-- =================TABLAS================ -->
+        <div class="details">
+          <div class="recentOrders">
+              <div class="cardHeader">
+                  <h2>RESTAURANTE - CASA - NEGOCIO</h2>
+                  <a href="/createClient"><ion-icon name="add-circle-outline" style="font-size: 35px;" title="Nuevo Usuario"></ion-icon></a>
+              </div>
+
+              <table>
+                  <thead>
+                    <tr>
+                      <th># CLIENTE</th>
+                      <th>NOMBRE</th>
+                      <th>DIRECCIÓN</th>
+                      <th>FRECUENCIA</th>
+                      <th>DIA CARGA</th>
+                      <th>TIP. PAGO</th>
+                      <th>TELEFONO</th>
+                      <th>CORREO</th>            
+                      <th>USUARIO ALTA</th> 
+                              
+                       
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% results.forEach((client)=>{ %>
+                      <tr>  
+                          <td>G - <%= client.noCliente %></td>  
+                          <td><%= client.nombreCliente %></td>
+                          <td><%= client.direccion %></td>
+                          <td><%= client.frecuenciaCarga %></td>
+                          <td><%= client.diaCarga %></td>
+                          <td><%= client.pagoPreferente %></td>
+                          <td><%= client.telefonoCliente %></td>
+                          <td><%= client.correoCliente %></td>
+                          <td><%= client.usuarioRegistro %></td>
+                          
+                      </tr>                                   
+                   <% }) %>
+                  </tbody>
+              </table>
+          </div>
+        </div>
+
+
+          <div class="details">
+            <div class="recentOrders">
+                <div class="cardHeader">
+                    <h2>EDIFICIOS</h2>
+                    <a href="/createClient"><ion-icon name="add-circle-outline" style="font-size: 35px;" title="Nuevo Usuario"></ion-icon></a>
+                </div>
+  
+                <table>
+                    <thead>
+                      <tr>
+                        <th># CLIENTE</th>
+                        <th>NOMBRE</th>
+                        <th>DIRECCIÓN</th>
+                        <th>BLOQUE</th>
+                        <th>FRECUENCIA</th>
+                        <th>DIA CARGA</th>
+                        <th>TIP. PAGO</th>
+                        <th>TELEFONO</th>
+                        <th>CORREO</th>            
+                        <th>USUARIO ALTA</th> 
+                                 
+                         
+                      </tr>
+                    </thead>
+  
+                    <tbody>
+                      <% results2.forEach((client2)=>{ %>
+                        <tr>  
+                            <td>E - <%= client2.noCliente %></td>  
+                            <td><%= client2.nombreCliente %></td>
+                            <td><%= client2.direccion %></td>
+                            <td><%= client2.bloqueSeccion %></td>
+                            <td><%= client2.frecuenciaCarga %></td>
+                            <td><%= client2.diaCarga %></td>
+                            <td><%= client2.pagoPreferente %></td>
+                            <td><%= client2.telefonoCliente %></td>
+                            <td><%= client2.correoCliente %></td>
+                            <td><%= client2.usuarioRegistro %></td>
+                            
+                        </tr>                                   
+                     <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+          
+      
+
+
+ 
+      <!-- =========== Scripts =========  -->
+<script src="/main.js"></script>
+
+<!-- ====== ionicons ======= -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+</html>

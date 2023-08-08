@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuevo Cliente</title>
+  <!-- ======= Styles ====== -->
+  <link rel="stylesheet"  href="/style3.css">
+</head>
+<body>
+
+
+   <!-- =============== Navigation ================ -->
+   <div class="container">
+    <div class="navigation">
+        <ul>
+            <li>
+                <a  href="/administracion">
+                    <span class="icon">
+                        <ion-icon name="business-outline"></ion-icon>
+                    </span>
+                    <span class="title">Gas Unión</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/administracion">
+                    <span class="icon">
+                        <ion-icon name="home-outline"></ion-icon>
+                    </span>
+                    <span class="title">Dashboard Principal</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="./dashboard/UsersControlAdmin">
+                    <span class="icon">
+                        <ion-icon name="person-outline"></ion-icon>
+                    </span>
+                    <span class="title">Usuarios</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/carteraClientes">
+                    <span class="icon">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </span>
+                    <span class="title">Clientes</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="help-outline"></ion-icon>
+                    </span>
+                    <span class="title">Servicios</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="file-tray-stacked-outline"></ion-icon>
+                    </span>
+                    <span class="title">Bloques</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </span>
+                    <span class="title">Precio gas</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout">
+                    <span class="icon">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                    </span>
+                    <span class="title">Cerrar Sesión</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ========================= Main ==================== -->
+    <div class="main">
+        <div class="topbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+
+            
+
+            <div class="">
+                <span class="title"><%= datos.rol %></span>
+            </div>
+        </div>
+
+
+      <% if (client) { %>
+      <div class="custom-form">     
+            <div class="custom-card">  
+              <h2 class="custom-form-header">Editar Cliente</h2>
+                <div class="custom-form-content">
+                    <form action="/updateClient" method="POST">
+                        <div class="input-group">
+                            <label for="id" class="form-label">NO. Cliente</label>
+                            <input type="text" class="form-control" id="id" name="id" tabindex="9" value="<%= client.noCliente  %>" readonly>                        
+                          </div>
+                          <div class="input-group">
+                            <label for="tipCliente" class="form-label">Tipo de Cliente</label>
+                            <input type="text" class="form-control" id="tipCliente" name="tipCliente" tabindex="2" value="<%= client.tipoCliente  %>">
+                          </div>
+                      <div class="input-group">
+                        <label for="nombre" class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" tabindex="2" value="<%= client.nombreCliente  %>">
+                      </div>
+                      <div class="input-group">
+                        <label for="calle" class="form-label">Calle</label>
+                        <input type="text" class="form-control" id="calle" name="calle" tabindex="3" value="<%= client.calle  %>">
+                      </div>
+                      <div class="input-group">
+                        <label for="noExt" class="form-label">Número Exterior</label>
+                        <input type="text" class="form-control" id="noExt" name="noExt" tabindex="4" value="<%= client.noExterior  %>">
+                      </div>
+                      <div class="input-group">
+                        <label for="noInt" class="form-label">Número Interior</label>
+                        <input type="text" class="form-control" id="noInt" name="noInt" tabindex="5" value="<%= client.noInterior  %>">
+                      </div>
+                      <div class="input-group">
+                        <label for="cp" class="form-label">Codigo Postal</label>
+                        <input type="text" class="form-control" id="cp" name="cp" tabindex="6" value="<%= client.cp  %>">
+                      </div>
+                      <div class="input-group">
+                        <label for="colonia" class="form-label">Colonia</label>
+                        <input type="text" class="form-control" id="colonia" name="colonia" tabindex="7" value="<%= client.colonia  %>">
+                      </div>
+                      <div class="input-group">
+                        <label for="municipio" class="form-label">Municipio</label>
+                        <input type="text" class="form-control" id="municipio" name="municipio" tabindex="8" value="<%= client.municipio  %>">
+                      </div>
+                      <div class="input-group">
+                        <label for="estado" class="form-label">Estado</label>
+                        <input type="text" class="form-control" id="estado" name="estado" tabindex="9" value="<%= client.estado  %>">
+                      </div>
+                      
+                      <div class="input-group">
+                        <label for="frecCarga" class="form-label">Frecuencia de carga</label>
+                        <input type="text" class="form-control" id="frecCarga" name="frecCarga" tabindex="9" value="<%= client.frecuenciaCarga  %>">
+                      </div>    
+                        <div class="input-group">
+                            <label for="dayCarga" class="form-label">Día preferente de carga</label>
+                            <input type="text" class="form-control" id="dayCarga" name="dayCarga" tabindex="12" value="<%= client.diaCarga  %>">
+                        </div>
+                        <div class="input-group">
+                            <label for="tipPago" class="form-label">Día preferente de carga</label>
+                            <input type="text" class="form-control" id="tipPago" name="tipPago" tabindex="12" value="<%= client.pagoPreferente  %>">
+                        </div>
+                            <div class="custom-select">
+                                <label for="bloque" class="custom-select-label">Bloque / Sección en caso de aplicar</label>
+                                <select id="bloque" name="bloque" class="custom-select-input" aria-label="Default select example" tabindex="14">
+                                  <% opcionesBloque.forEach((nombreBloque) => { %>
+                                    <option><%=  nombreBloque %></option>
+                                  <% }); %>              
+                                  <option>NINGUNO</option>    
+                                </select>
+                            </div>     
+                        <div class="input-group">
+                          <label for="obser" class="form-label">Observaciones</label>
+                          <input type="text" class="form-control" id="obser" name="obser" tabindex="15"  value="<%= client.observaciones  %>">
+                        </div> 
+                        <div class="custom-select">
+                            <label for="st" class="custom-select-label">Estatus</label>
+                            <select id="st" name="st" class="custom-select-input" aria-label="Default select example" tabindex="16" value="<%= client.statusCliente  %>">
+                                <option>ACTIVO</option>   
+                                <option>DESACTIVADO</option>            
+                                
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="tel" class="form-label">Telefono</label>
+                            <input type="text" class="form-control" id="tel" name="tel" tabindex="17" value="<%= client.telefonoCliente  %>">
+                        </div>
+                        <div class="input-group">
+                            <label for="mail" class="form-label">Correo Electronico</label>
+                            <input type="text" class="form-control" id="mail" name="mail" tabindex="18" value="<%= client.correoCliente  %>">
+                        </div>
+                        <div class="input-group">
+                            <label for="userRe" class="form-label">Usuario Registra</label>
+                            <input type="text" class="form-control" id="userRe" name="userRe" value="<%= client.usuarioRegistro %>" readonly>
+                        </div>
+
+                        
+
+                                                           
+                        <button type="button-group" class="custom-primary-button" tabindex="5">Guardar</button>
+                        <a href="./carteraClientes.ejs" class="custom-secondary-button">Cancelar</a>
+                    </form>
+                </div>
+            </div>        
+      </div>
+      <% } %>
+        <!-- =========== Scripts =========  -->
+<script src="/main.js"></script>
+
+<!-- ====== ionicons ======= -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

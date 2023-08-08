@@ -21,7 +21,6 @@ const mesActual = fechaActual.getMonth()+1;
 const anioActual = fechaActual.getFullYear();
 const fechaCompleta = anioActual + '-' + mesActual + '-' + diaActual;
 
-app.use('/', require('./router'));
 
 // Configuración de express-session
 app.use(session({
@@ -61,7 +60,7 @@ const verificarSesion = (req, res, next) => {
 app.post('/login', (req, res) => { //DESDE HTML EJECUTAMOS EL POST CON NOMBRE /login PARA QUE PODAMOS LLAMARLO
   const { username, password } = req.body; //TRAEMOS LOS DATOS DEL INDEX.HTML QUE SON LOS DATOS DE INICIO DE SESION
 
-  const query = 'SELECT * FROM usuarios WHERE username = ? AND password = ? AND status = ?'; //QUERY PARA OBTENER SI EXISTE UN USUARIO CON ESE USERNAME Y PASSWORD Y QUE ADEMAS ESTE ACTIVO
+  const query = 'SELECT * FROM usuarios WHERE noEmpleado = ? AND password = ? AND status = ?'; //QUERY PARA OBTENER SI EXISTE UN USUARIO CON ESE USERNAME Y PASSWORD Y QUE ADEMAS ESTE ACTIVO
   connection.query(query, [username, password,'ACTIVO'], (error, results) => { //PASAMOS LOS PARAMETROS AL QUERY Y OBTENEMOS EL RESULTADO O EL ERROR
     if (error) {
       console.error('Error en la consulta:', error); //NOS MUESTRA EN LA CONSOLA SI ES QUE XISTE ALGUN ERROR EN EL QUERY
@@ -81,14 +80,11 @@ app.post('/login', (req, res) => { //DESDE HTML EJECUTAMOS EL POST CON NOMBRE /l
       
       //VALIDAMOS LOS ROLES PPARA REDIRECCIONAR A LA PAGINA RESPECTIVA
       if (rol === 'ADMINISTRADOR') {
-        
-            res.redirect('/dashboard/admin');
-          
-        
+        res.redirect('/administracion');
       }else if (rol === 'SUPERVISOR') {
-        res.redirect('/dashboard/operador');
+        res.redirect('/supervisor');
       } else if(rol === 'COORDINADOR'){
-        res.redirect('/dashboard/mostrador')
+        res.redirect('/coordinador')
       } else if(rol === 'OPERADOR'){
         res.redirect('/dashboard/handheld')
       } else {
@@ -117,14 +113,73 @@ app.get('/logout', (req, res) => {
 
 
 // DECLARAMOS LA Ruta del dashboard del administrador
-app.get('/dashboard/admin',verificarSesion, (req, res) => {
-  connection.query('SELECT * FROM clientes WHERE diaCarga <= DAY(CURRENT_DATE) + 5 ',(error, results)=>{
+app.get('/administracion',verificarSesion, (req, res) => {
+  connection.query('SELECT * FROM clientes WHERE diaCarga BETWEEN DAY(CURDATE()) + 1 AND DAY(DATE_ADD(CURDATE(), INTERVAL 7 DAY)) AND diaCarga <= DAY(LAST_DAY(DATE_ADD(CURDATE(), INTERVAL 7 DAY))) LIMIT 15;',(error, results)=>{
     if(error){
         throw error;
     } else {
-      const datos = req.session.datos; //OBTENEMOS LA VARIABLE DATOS QUE CREAMOS EN EL METODO DE ARRIBA POST 
-  res.render('dashboard_admin',{results:results,datos}); //PASAMOS EL OBJETO CON LOS DATOS QUE RECUPERAMOS ANTERIORMENTE
-  //console.log("this is sede"+grafica:req.session.grafica)
+      connection.query('SELECT COUNT(*) as total FROM clientes',(error, results2)=>{
+        if(error){
+            throw error;
+        } else {
+          connection.query('SELECT precio FROM precioGas limit 1',(error, results3)=>{
+            if(error){
+                throw error;
+            } else {console.log(results)
+              const datos = req.session.datos; //OBTENEMOS LA VARIABLE DATOS QUE CREAMOS EN EL METODO DE ARRIBA POST 
+              res.render('administracion',{results:results,results2:results2,results3:results3,datos}); //PASAMOS EL OBJETO CON LOS DATOS QUE RECUPERAMOS ANTERIORMENTE
+            }
+          })
+        }   
+      })
+    }   
+  })
+  
+});
+
+app.get('/supervisor',verificarSesion, (req, res) => {
+  connection.query('SELECT * FROM clientes WHERE diaCarga BETWEEN DAY(CURDATE()) + 1 AND DAY(DATE_ADD(CURDATE(), INTERVAL 7 DAY)) AND diaCarga <= DAY(LAST_DAY(DATE_ADD(CURDATE(), INTERVAL 7 DAY))) LIMIT 15;',(error, results)=>{
+    if(error){
+        throw error;
+    } else {
+      connection.query('SELECT COUNT(*) as total FROM clientes',(error, results2)=>{
+        if(error){
+            throw error;
+        } else {
+          connection.query('SELECT precio FROM precioGas limit 1',(error, results3)=>{
+            if(error){
+                throw error;
+            } else {console.log(results)
+              const datos = req.session.datos; //OBTENEMOS LA VARIABLE DATOS QUE CREAMOS EN EL METODO DE ARRIBA POST 
+              res.render('supervisor',{results:results,results2:results2,results3:results3,datos}); //PASAMOS EL OBJETO CON LOS DATOS QUE RECUPERAMOS ANTERIORMENTE
+            }
+          })
+        }   
+      })
+    }   
+  })
+  
+});
+
+app.get('/coordinador',verificarSesion, (req, res) => {
+  connection.query('SELECT * FROM clientes WHERE diaCarga BETWEEN DAY(CURDATE()) + 1 AND DAY(DATE_ADD(CURDATE(), INTERVAL 7 DAY)) AND diaCarga <= DAY(LAST_DAY(DATE_ADD(CURDATE(), INTERVAL 7 DAY))) LIMIT 15;',(error, results)=>{
+    if(error){
+        throw error;
+    } else {
+      connection.query('SELECT COUNT(*) as total FROM clientes',(error, results2)=>{
+        if(error){
+            throw error;
+        } else {
+          connection.query('SELECT precio FROM precioGas limit 1',(error, results3)=>{
+            if(error){
+                throw error;
+            } else {console.log(results)
+              const datos = req.session.datos; //OBTENEMOS LA VARIABLE DATOS QUE CREAMOS EN EL METODO DE ARRIBA POST 
+              res.render('coordinador',{results:results,results2:results2,results3:results3,datos}); //PASAMOS EL OBJETO CON LOS DATOS QUE RECUPERAMOS ANTERIORMENTE
+            }
+          })
+        }   
+      })
     }   
   })
   
@@ -134,9 +189,11 @@ app.get('/dashboard/admin',verificarSesion, (req, res) => {
 
 app.get('/createUsers', (req,res)=>{
   
-          res.render('createUsers');
+  const datos = req.session.datos;
+  res.render('createUsers',{datos});
           
 });
+
 
 
 app.get('/dashboard/UsersControlAdmin',verificarSesion, (req, res)=>{     
@@ -146,19 +203,45 @@ app.get('/dashboard/UsersControlAdmin',verificarSesion, (req, res)=>{
       } else {
           const datos = req.session.datos;                     
           res.render('dashboardUsersControlAdmin', {results:results,datos});  
-          console.log(results);          
+                    
       }   
   })
 });
 
 app.get('/carteraClientes',verificarSesion, (req, res)=>{     
-  connection.query('SELECT * FROM clientes WHERE statusCliente = ?',['ACTIVO'],(error, results)=>{
+  connection.query('SELECT * FROM clientes WHERE tipoCliente = ?',['RESTAURANTE - CASA - NEGOCIO'],(error, results)=>{
       if(error){
           throw error;
       } else {
-          const datos = req.session.datos;                     
-          res.render('carteraClientes', {results:results,datos});  
-          console.log(results);          
+        connection.query('SELECT * FROM clientes WHERE tipoCliente = ?',['EDIFICIO'],(error, results2)=>{
+          if(error){
+              throw error;
+          } else {
+              const datos = req.session.datos;                     
+              res.render('carteraClientes', {results:results,results2:results2,datos});  
+                        
+          }   
+      })
+                  
+      }   
+  })
+});
+
+app.get('/carteraLimite',verificarSesion, (req, res)=>{     
+  connection.query('SELECT * FROM clientes WHERE tipoCliente = ?',['RESTAURANTE - CASA - NEGOCIO'],(error, results)=>{
+      if(error){
+          throw error;
+      } else {
+        connection.query('SELECT * FROM clientes WHERE tipoCliente = ?',['EDIFICIO'],(error, results2)=>{
+          if(error){
+              throw error;
+          } else {
+              const datos = req.session.datos;                     
+              res.render('carteraLimite', {results:results,results2:results2,datos});  
+                        
+          }   
+      })
+                  
       }   
   })
 });
@@ -183,6 +266,9 @@ app.get('/createClient', (req,res)=>{
   })
   
 });
+
+
+app.use('/', require('./router'));
 
 
 
